@@ -63,7 +63,7 @@ step_size = 5
 def main():
     st.markdown("<h1 class='main-header'>Price Pal - Stock Price Predictor</h1>", unsafe_allow_html=True)
 
-    model_path = "stock model3.keras"
+    model_path = "stock model.keras"
     try:
         model = load_model(model_path)
         st.sidebar.success("Model loaded successfully!")
