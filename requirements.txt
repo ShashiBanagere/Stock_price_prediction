@@ -1,1 +1,4 @@
 matplotlib
+sklearn
+tensorflow
+keras
