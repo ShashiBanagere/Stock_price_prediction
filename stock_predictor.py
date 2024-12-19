@@ -78,7 +78,7 @@ def main():
 
 
 
-    model_path = "stock model3.keras"
+    model_path = "stock model.keras"
     try:
         model = load_model(model_path)
     except Exception as e:
