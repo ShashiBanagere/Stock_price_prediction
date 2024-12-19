@@ -7,6 +7,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 import streamlit as st
 from keras.models import load_model
 import yfinance as yf
+import base64
 
 # Custom CSS
 st.markdown("""
@@ -61,9 +62,23 @@ step_size = 5
 
 # Main app
 def main():
-    st.markdown("<h1 class='main-header'>Price Pal - Stock Price Predictor</h1>", unsafe_allow_html=True)
+    with open("logo1.png", "rb") as logo_file:
+        logo_base64 = base64.b64encode(logo_file.read()).decode()
 
-    model_path = "stock model.keras"
+    st.markdown(
+        f"""
+        <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 2rem; margin-left: -20px;">
+            <img src="data:image/png;base64,{logo_base64}" alt="PricePal Logo" style="height: 32px; margin-right: 10px; border-radius: 0px;">
+            <h1 style="font-size: 2.5rem; color: #1E88E5; margin: 0;">Price Pal - Stock Price Predictor</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+
+
+    model_path = "stock model3.keras"
     try:
         model = load_model(model_path)
     except Exception as e:
