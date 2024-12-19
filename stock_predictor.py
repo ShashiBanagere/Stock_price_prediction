@@ -63,22 +63,51 @@ step_size = 5
 def main():
     st.markdown("<h1 class='main-header'>Price Pal - Stock Price Predictor</h1>", unsafe_allow_html=True)
 
-    model_path = "stock model.keras"
+    model_path = "stock model3.keras"
     try:
         model = load_model(model_path)
-        st.sidebar.success("Model loaded successfully!")
     except Exception as e:
         st.sidebar.error(f"Error loading model: {e}")
         return
 
     # File uploader
-    st.header('Stock Market Predictor')
+    st.sidebar.header("Data Input Options")
+    data_option = st.sidebar.radio(
+        "Choose how to provide stock data:",
+        ("Use Ticker", "Upload CSV File")
+    )
 
-    stock =st.text_input('Enter Stock Symnbol', 'GOOG')
-    start = '2012-01-01'
-    end = '2024-11-29'
+    if data_option == "Use Ticker":
+        stock = st.text_input('Enter Stock Symbol', 'GOOG')
+        start = '2012-01-01'
+        end = '2024-12-10'
 
-    data = yf.download(stock, start ,end)
+        try:
+            data = yf.download(stock, start, end)
+            if data.empty:
+                st.error("No data found! Please check the stock ticker and type a valid one.")
+                return
+        except Exception as e:
+            st.error(f"An error occurred while fetching data: {e}")
+            return
+
+    elif data_option == "Upload CSV File":
+        uploaded_file = st.file_uploader("Upload a CSV file with stock data", type=["csv"])
+        if uploaded_file is not None:
+            try:
+                data = pd.read_csv(uploaded_file)
+                # Ensure required columns are present
+                required_columns = {'Open', 'High', 'Low', 'Close'}
+                if not required_columns.issubset(data.columns):
+                    st.error("The uploaded file must contain 'Open', 'High', 'Low', and 'Close' columns.")
+                    return
+            except Exception as e:
+                st.error(f"Error reading the CSV file: {e}")
+                return
+        else:
+            st.warning("Please upload a CSV file to proceed.")
+            return
+
 
     st.subheader('Stock Data')
     st.write(data)
