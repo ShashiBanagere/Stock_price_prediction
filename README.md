@@ -166,6 +166,6 @@ The app will display:
 
 <div align="center">
 
-Made with :heart: by [Shashi Banagere](https://github.com/ShashiBanagere)
+
 
 </div>
